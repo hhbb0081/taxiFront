@@ -13,7 +13,7 @@ function Taxi() {
 
     const AddList=()=>{
         if(roomName===""){
-            null
+            return null
         }
         else{
             setItemList((prev)=>{
@@ -61,15 +61,9 @@ function Taxi() {
         }
     }
 
-    const onclickHandler = (name) => alert(`hi`);
 
     const enterRoom=(e)=>{
-        var sender = prompt('대화명을 입력해 주세요.');
-        if(sender !== "") {
-            localStorage.setItem('wschat.sender',sender);
-            localStorage.setItem('wschat.roomId',roomId);
-            location.href="/chat/room/enter/"+roomId;
-        }
+        console.log("click")
     }
 
 
@@ -87,11 +81,11 @@ function Taxi() {
                 </div>
                 <input type="text" className="form-control"  value={roomName} onChange={onChange} onKeyDown={onKeyPress} />
                 <div className="input-group-append">
-                    <button className="btn btn-primary" type="button" onClick={()=>{createRoom(),AddList()}}>채팅방 개설</button>
+                    <button className="btn btn-primary" type="button" onClick={()=>(createRoom(),AddList())}>채팅방 개설</button>
                 </div>
             </div>
             <ul className="list-group">
-                {ItemList.map((item,idx)=>{return item.id==1?null:<li key={item.id} className="list-group-item list-group-item-action" >{item.roomName}<span className="badge badge-info badge-pill" onClick={()=>{enterRoom(),onclickHandler("heeyeon")}}> {item.userCount}</span></li>})} 
+                {ItemList.map((item,idx)=>{return item.id==1?null:<li onClick={()=>{enterRoom()}} key={item.id} className="list-group-item list-group-item-action" >{item.roomName}<span className="badge badge-info badge-pill"> {item.userCount}</span></li>})} 
             </ul>
         </div>
     )
