@@ -63,6 +63,15 @@ function Taxi() {
 
 
     const enterRoom=(e)=>{
+        var sender = prompt('대화명을 입력해 주세요.');
+        var room = ItemList[ItemList.length-2].roomName
+        console.log(ItemList[ItemList.length-2].roomName)
+        var k = k
+        if(sender !== "") {
+            localStorage.setItem('wschat.sender',sender);
+            localStorage.setItem('wschat.roomId',room);
+            document.location.href="http://localhost:8080/chat/room/enter/"+room;
+        }
         console.log("click")
     }
 
