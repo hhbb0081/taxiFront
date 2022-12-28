@@ -22,7 +22,7 @@ function App1() {
         if(roomName===""){
             alert("방 제목을 입력해주세요")
         }
-        else{
+         else{
             var params = new URLSearchParams();
                     params.append("name",roomName);
                     axios.post("http://localhost:8080"+'/chat/room', params)
