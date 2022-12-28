@@ -57,7 +57,7 @@ function App1() {
                     <button className="btn btn-primary" type="button" onClick={createRoom}>채팅방 개설</button>
                 </div>
             </div>
-         <ul className="list-group">
+        <ul className="list-group">
             {ItemList.map((item,idx)=>{return <li key={idx}>{item.name}</li>})}
         </ul>
         </div>
