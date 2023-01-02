@@ -2,6 +2,7 @@ import React from "react";
 import 'bootstrap/dist/css/bootstrap.css';
 import { useState,useEffect,useRef } from "react";
 import axios from "axios"
+import './Taxi.css'
 
 function Taxi() {
     
@@ -81,7 +82,8 @@ function Taxi() {
         <div className="container" id="app">
             <div className="row">
                 <div className="col-md-12">
-                    <h3>채팅방 리스트</h3>
+                    <img id="taxiImage" src="taxi-image.png"></img>
+                    <h3>택시합승</h3>
                 </div>
             </div>
             <div className="input-group">
@@ -94,7 +96,7 @@ function Taxi() {
                 </div>
             </div>
             <ul className="list-group">
-                {ItemList.map((item,idx)=>{return item.id==1?null:<li onClick={()=>{enterRoom()}} key={item.id} className="list-group-item list-group-item-action" >{item.roomName}<span className="badge badge-info badge-pill"> {item.userCount}</span></li>})} 
+                {ItemList.map((item,idx)=>{return item.id==1?null:<li onClick={()=>{enterRoom()}} key={item.id} className="list-group-item list-group-item-action" id="list">방 제목 : {item.roomName}<span className="badge badge-info badge-pill"> {item.userCount}</span></li>})} 
             </ul>
         </div>
     )
