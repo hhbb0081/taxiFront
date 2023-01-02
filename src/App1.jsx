@@ -22,7 +22,7 @@ function App1() {
         if(roomName===""){
             alert("방 제목을 입력해주세요")
         }
-        else{
+         else{
             var params = new URLSearchParams();
                     params.append("name",roomName);
                     axios.post("http://localhost:8080"+'/chat/room', params)
@@ -57,7 +57,7 @@ function App1() {
                     <button className="btn btn-primary" type="button" onClick={createRoom}>채팅방 개설</button>
                 </div>
             </div>
-         <ul className="list-group">
+        <ul className="list-group">
             {ItemList.map((item,idx)=>{return <li key={idx}>{item.name}</li>})}
         </ul>
         </div>

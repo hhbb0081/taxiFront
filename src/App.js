@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 
 function App() {
-
+  //주석입니다.
   const [message, setMessage] = useState("");
 
   useEffect(() => {
