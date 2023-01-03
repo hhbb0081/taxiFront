@@ -2,6 +2,9 @@ import React,{useState,useRef} from "react";
 import './TaxiRoom.css'
 import 'bootstrap/dist/css/bootstrap.css';
 import axios from "axios"
+import {BrowserRouter,Routes,Route,Link } from "react-router-dom";
+import TaxiRoomDetail from "./TaxiRoomDetail";
+
 
 
 function TaxiRoom(){
@@ -76,6 +79,7 @@ function TaxiRoom(){
     }
     return(
         <>
+            
             <div id="title">
                 <img id="taxiImage" src="taxi-image.png"></img>
                 <h2>택시합승</h2>
@@ -102,6 +106,7 @@ function TaxiRoom(){
                     <ul className="list-group">
                         {ItemList.map((item,idx)=>{return item.id==1?null:<li onClick={()=>{enterRoom()}} key={item.id} className="list-group-item list-group-item-action" id="list">방 제목 : {item.roomName}<span className="badge badge-info badge-pill"> {item.userCount}</span></li>})} 
                     </ul>
+                    <Link to="/TaxiRoomDetail">asfd</Link>
                 </div>
             </div>
         </>

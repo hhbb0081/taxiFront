@@ -1,41 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter,Routes,Route,Link } from 'react-router-dom';
+import TaxiRoom from './room/TaxiRoom';
+import TaxiRoomDetail from './room/TaxiRoomDetail'
 
 function App() {
-  //주석입니다.
-  const [message, setMessage] = useState("");
-
-  useEffect(() => {
-    fetch('/api/hello')
-      .then(response => response.text())
-      .then(message => {
-        setMessage(message);
-      });
-  },[])
-
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          {message}
-        </p>
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  return(
+    <Routes>
+      <Route path='/' element={<TaxiRoom/>}></Route>
+      <Route path='/TaxiRoomDetail' element={<TaxiRoomDetail/>}></Route>
+    </Routes>
+  )
 }
 
 export default App;
-//adsfdsfadfafadfdf
