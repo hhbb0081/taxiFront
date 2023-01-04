@@ -2,15 +2,14 @@ import React,{useState,useRef} from "react";
 import './TaxiRoom.css'
 import 'bootstrap/dist/css/bootstrap.css';
 import axios from "axios"
-import {BrowserRouter,Routes,Route,Link } from "react-router-dom";
-import TaxiRoomDetail from "./TaxiRoomDetail";
+import {Link } from "react-router-dom";
 
 
 
 function TaxiRoom(){
     const [roomName,setRoomName]=useState("");
     let [ItemList,setItemList]=useState([{
-        id:1
+        id:0
     }]);
     const no = useRef(1)
 
@@ -42,7 +41,6 @@ function TaxiRoom(){
         axios.get('/chat/rooms').then((response) => { ItemList = response.data; });
     }
     const createRoom=(e)=>{
-        
         if(roomName===""){
             alert("방 제목을 입력해주세요")
         }
@@ -67,19 +65,10 @@ function TaxiRoom(){
 
     const enterRoom=(e)=>{
         var sender = prompt('대화명을 입력해 주세요.');
-        var room = ItemList[ItemList.length-2].roomName
-        console.log(ItemList[ItemList.length-2].roomName)
-        var k = k
-        if(sender !== "") {
-            localStorage.setItem('wschat.sender',sender);
-            localStorage.setItem('wschat.roomId',room);
-            document.location.href="http://localhost:8080/chat/room/enter/"+room;
-        }
-        console.log("click")
+        console.log(e.key)
     }
     return(
         <>
-            
             <div id="title">
                 <img id="taxiImage" src="taxi-image.png"></img>
                 <h2>택시합승</h2>
@@ -104,9 +93,8 @@ function TaxiRoom(){
                         </div>
                     </div>
                     <ul className="list-group">
-                        {ItemList.map((item,idx)=>{return item.id==1?null:<li onClick={()=>{enterRoom()}} key={item.id} className="list-group-item list-group-item-action" id="list">방 제목 : {item.roomName}<span className="badge badge-info badge-pill"> {item.userCount}</span></li>})} 
+                        {ItemList.map((item,idx)=>{return item.id==0?null:<Link to={"/TaxiRoomDetail/"+{item}}><li onClick={()=>{enterRoom()}} key={ItemList.id} className="list-group-item list-group-item-action" id="list">방 제목 : {item.roomName}<span className="badge badge-info badge-pill"> {item.userCount}</span></li></Link>})} 
                     </ul>
-                    <Link to="/TaxiRoomDetail">asfd</Link>
                 </div>
             </div>
         </>

@@ -1,6 +1,9 @@
 import React from "react";
+import { useNavigate } from 'react-router-dom';
+
 
 function TaxiRoomDetail(){
+    let navigate = useNavigate();
     return(
         <div>
             <div className="row">
@@ -8,7 +11,7 @@ function TaxiRoomDetail(){
                     <h4> <span class="badge badge-info badge-pill"></span></h4>
                 </div>
                 <div className="col-md-6 text-right">
-                    <a className="btn btn-info btn-sm" href="/chat/room">채팅방 나가기</a>
+                    <button className="btn btn-info btn-sm" onClick={() => navigate(-1) } >채팅방 나가기</button>
                 </div>
             </div>
         </div>
