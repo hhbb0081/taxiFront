@@ -4,11 +4,11 @@ import TaxiRoom from './room/TaxiRoom';
 import TaxiRoomDetail from './room/TaxiRoomDetail'
 
 function App() {
-  const parmas = useParams()
-  return (
+  const parmas= useParams()
+  return(
     <Routes>
-      <Route path='/' element={<TaxiRoom />}></Route>
-      <Route path='/TaxiRoomDetail/:name' element={<TaxiRoomDetail />}></Route>
+      <Route path='/' element={<TaxiRoom/>}></Route>
+      <Route path='/TaxiRoomDetail/:name' element={<TaxiRoomDetail/>}></Route>
     </Routes>
   )
 }

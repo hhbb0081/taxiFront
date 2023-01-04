@@ -1,18 +1,14 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import ReactDOM from 'react-dom/client';
-// <<<<<<< HEAD
-// import './index.css';
-// import Taxi from './Taxi';
+import { BrowserRouter } from 'react-router-dom';
+import App from './room/App';
 
-// =======
-import Taxi from './room/Taxi';
-import TaxiRoom from './room/TaxiRoom';
-// >>>>>>> e7a9a5e5eaa45e5cfac2080b8e70243c172a33e0
+import './index.css';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <TaxiRoom/>
-  </React.StrictMode>
+  <BrowserRouter>
+    <App/>
+  </BrowserRouter>
 );
 
