@@ -1,4 +1,18 @@
 import React, { useState, useEffect } from 'react';
+<<<<<<< HEAD
+import { BrowserRouter,Routes,Route,Link,useParams } from 'react-router-dom';
+import TaxiRoom from './room/TaxiRoom';
+import TaxiRoomDetail from './room/TaxiRoomDetail'
+
+function App() {
+  const parmas= useParams()
+  return(
+    <Routes>
+      <Route path='/' element={<TaxiRoom/>}></Route>
+      <Route path='/TaxiRoomDetail/:name' element={<TaxiRoomDetail/>}></Route>
+    </Routes>
+  )
+=======
 import logo from './logo.svg';
 import Join from './joinForm.jsx';
 import './App.css';
@@ -35,7 +49,7 @@ function App() {
       </header>
     </div>
   );
+>>>>>>> 1fb08c43acc2ab79a5d1de27d5fca92ca8b56ccd
 }
 
 export default App;
-//adsfdsfadfafadfdf
