@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import logo from './logo.svg';
+import Join from './joinForm.jsx';
 import './App.css';
 
 function App() {
-  //주석입니다.
   const [message, setMessage] = useState("");
 
   useEffect(() => {
