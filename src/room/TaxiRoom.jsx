@@ -29,6 +29,7 @@ function TaxiRoom(){
                 ]
             });
         }
+        console.log(ItemList)
     }
     
     const onChange = (e)=>setRoomName(e.target.value);
