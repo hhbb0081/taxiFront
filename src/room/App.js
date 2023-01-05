@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter,Routes,Route,Link,useParams } from 'react-router-dom';
-import TaxiRoom from './room/TaxiRoom';
-import TaxiRoomDetail from './room/TaxiRoomDetail'
+import { Routes,Route,Link,useParams } from 'react-router-dom';
+import TaxiRoom from './TaxiRoom';
+import TaxiRoomDetail from './TaxiRoomDetail'
 
 function App() {
   const parmas= useParams()
