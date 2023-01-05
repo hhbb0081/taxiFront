@@ -15,9 +15,6 @@ export default function Login() {
   const [pwValid, setPwValid] = useState(false);
   const [idpwOk, setIdPwOk] = useState(false);
 
-  useEffect(() => {
-
-  },[id])
 
   useEffect(() => {
     if (idValid && pwValid) {
@@ -29,51 +26,32 @@ export default function Login() {
     }
   }, [idValid, pwValid])
 
-  const signIn = (e) => {
-    e.preventDefault();
 
-    // axios(
-    //   {
-    //     url: '/member',
-    //     method: 'post',
-    //     data: {
-    //       ID: id,
-    //       PW: password
-    //     },
-    //     baseURL: 'api',
-    //   }
-    // ).then(function (response) {
-    //   console.log(response.data)
-    // })
+    async function postInfo(e) {
+    try {
+      e.preventDefault();
+      const response = await axios
+        .get("http://localhost:8080/login", {
+          params: {
+            userId: id,
+            password: password,
+          },
+        });
+      alert("회원가입 성공!");
+      console.log(response.data);
+        
+    } catch (error) {
+      console.log(error);
+    }
+    alert("끝");
+  }
 
-    fetch('http://localhost:8080/users/findId', {
-      method: 'POST',
-      body: JSON.stringify({
-        ID: id,
-        password: password,
-      }),
-    })
-      .then((res) => res.json())
-      .then(res => {
-        console.log(res);
-        //로그인 성공
-        if (res.message === 'SUCCESS') {
-          window.localStorage.setItem('token', res.access_token);
-        } else {
-          alert('아이디 또는 비밀번호가 일치하지 않습니다.');
-        }
-      });
-  };
+    
   
 
   return (
     <div>
-      {/* <div id="header">
-          <div id="logo">
-            <img src={logo} alt="택시 사진" />
-          </div>
-          <div id="title">TAXI</div>
-      </div> */}
+      
       <Header/>
 
       <div className={styles.main_wrapper}>
@@ -102,16 +80,20 @@ export default function Login() {
             </div>
             <br/>
             <div id="btn">
-              <button className={styles.login_btn}>로그인</button></div>
+              <button className={styles.login_btn} onClick={postInfo}>로그인</button></div>
 
             <div className="_wrapper">
               <span className={styles.chk_wrapper}>
                 <input
+                  id='login_main'
                   type="checkbox"
                   name="login_man"
                   className={styles.login_man}
                   placeholder="로그인 유지"
-                />로그인 유지
+                />
+                <label
+                  htmlFor="login_main"
+                >로그인 유지</label>
               </span>
               <span className={styles.idpw_find}>
                 <Link to="/Find">아이디 | 비밀번호 찾기</Link>
@@ -127,6 +109,5 @@ export default function Login() {
           </div>
       </div>
     </div>
-
   )
 }
