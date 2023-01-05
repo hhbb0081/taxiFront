@@ -1,0 +1,188 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+.form_wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px 0;
+  font-size: 20px;
+}
+
+/* input[type="text"],
+input[type="password"],
+input[type="tel"],
+input[type="date"],
+input[type="email"]*/ 
+.input{ 
+  width: 400px;
+  height: 50px;
+  border: none;
+  background-color: rgb(238, 238, 238);
+  margin: 5px 0;
+  padding: 0 10px;
+}
+
+.form_content {
+  margin: 25px 0;
+  font-weight: 100;
+}
+
+.nickname_search {
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+  margin-top: 5px;
+  border: none;
+  background-color: black;
+  color: white;
+  width: 110px;
+  margin-left: 25px;
+  font-size: 12px;
+  padding: 10px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.sex {
+  display: flex;
+  flex-direction: row;
+  width: 420px;
+}
+
+.label {
+  padding-left: 10px;
+}
+
+.sex_err {
+  margin-top: 20px;
+  color: red;
+  font-size: 14px;
+  text-align: center;
+}
+
+.male,
+.female {
+  margin: 0 73.5px;
+}
+
+.emailSelect {
+  height: 50px;
+  margin-left: 15px;
+  margin-top: 5px;
+  width: 200px;
+  text-align: center;
+}
+
+.univ,
+.nickName,
+.email {
+  display: flex;
+  flex-direction: row;
+  width: 420px;
+}
+
+.univ_input {
+  background-color: white;
+  width: 400px;
+  height: 50px;
+  border: none;
+  margin: 5px 0;
+  padding: 0 10px;
+}
+
+.univ_search {
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+  margin-top: 5px;
+  border: none;
+  background-color: black;
+  color: white;
+  width: 110px;
+  margin-left: 25px;
+  font-size: 12px;
+  padding: 10px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.pop_wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  font-size: 0;
+  text-align: center;
+}
+
+.pop_wrap:after {
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  content: '';
+}
+
+.pop_inner {
+  overflow: scroll;
+}
+
+.list_wrapper {
+  list-style: none;
+  overflow: auto;
+}
+
+.univ_list {
+  margin: 10px 0;
+  padding: 10px 0;
+  background-color: rgba(194, 194, 250, 0.5);
+  overflow: auto;
+
+}
+
+.univ_content {
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
+}
+
+.pop_wrap .pop_inner {
+  display: inline-block;
+  padding: 20px 30px;
+  background: rgb(241, 245, 252);
+  width: 450px;
+  height: 400px;
+  vertical-align: middle;
+  font-size: 15px;
+}
+
+.btn_close {
+  height: 40px;
+  width: 100px;
+  margin: 30px 0;
+  border: none;
+  background-color: rgb(107, 107, 107);
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.joinbtn {
+  width: 422px;
+  height: 60px;
+  border: none;
+  background-color: #FFD540;
+  margin: 10px 0;
+  cursor: pointer;
+}
+
+.empty_err {
+  color: red;
+  font-size: 14px;
+  margin: 5px 5px;
+  visibility: display;
+}

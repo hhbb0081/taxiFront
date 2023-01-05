@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import Header from './components/headerForm';
 import axios from 'axios';
+import styles from './join.module.css';
+
+import { Link } from "react-router-dom";
 
 
 
 export default function Join() {
 
-  // const err_style = {display: }
   const [style, setStyle] = useState({ display: 'none' })
-  // const [borderStyle, setBorderStyle] = useState({ border: '1px solid black'})
 
   //유효성 검사
   const [idOK, setIdOK] = useState(true)
@@ -49,6 +50,12 @@ export default function Join() {
   const [BirthMsg, setBirthMsg] = useState('')
   const [EmailMsg, setEmailMsg] = useState('')
   const [UnivMsg, setUnivMsg] = useState('')
+
+
+  function emailChange(e) {
+    setUnivNum(e.target.value);
+    console.log(e.target.value);
+  }
 
   useEffect(() => {
     if (PW !== undefined &&
@@ -200,14 +207,13 @@ export default function Join() {
     }
   }, [Univ]);
 
-  // const emailSlt = document.getElementById('emailSelect');
   // var sendData = JSON.stringify({
   //   "ID": ID,
   //   "PW": PW,
   //   "Chk_PW": Chk_PW,
   //   "Name": Name,
-  //   "Sex": Sex,
   //   "Nickname": Nickname,
+  //   "Sex": Sex,
   //   "Mobile": Mobile,
   //   "Birth": Birth,
   //   "Email": Email,
@@ -215,33 +221,36 @@ export default function Join() {
   // })
 
   //회원가입 버튼 누른 후 정보 보냄
-  function postInfo(e) {
-    //제대로 작성되지 않은 정보가 있다면 보내지지 않게 함
-    if (idOK === true || PWOK === true || ChkOK === true || NameOK === true || NicknameOK === true || SexOK === true || MobileOK === true || BirthOK === true || EmailOK === true || UnivOK === true) {
+  async function postInfo(e) {
+    try {
+      //제대로 작성되지 않은 정보가 있다면 보내지지 않게 함
+      // if (idOK === true || PWOK === true || ChkOK === true || NameOK === true || NicknameOK === true || SexOK === true || MobileOK === true || BirthOK === true || EmailOK === true || UnivOK === true) {
+      //   e.preventDefault();
+      //   alert('정보를 확인하세요');
+      //   return;
+      // }
       e.preventDefault();
-      alert('정보를 확인하세요');
-      return;
+      const response = await axios
+        .post("http://localhost:8080/users", {
+          userId: ID,
+          password: PW,
+          name: Name,
+          nickName: Nickname,
+          sex: Sex,
+          mobile: Mobile,
+          birthday: Birth,
+          email: Email,
+          university: Univ,
+          provider: null,
+          providerId: null,
+        }, {"Content-Type": 'application/json'});
+      alert("회원가입 성공!");
+      console.log(response.data);
+      history.replace("/login");
+        
+    } catch (error) {
+      console.log(error);
     }
-    e.preventDefault();
-    axios
-      .post("http://localhost:8080/joinContent", {
-        ID: ID,
-        PW: PW,
-        Chk_PW: Chk_PW,
-        Name: Name,
-        Sex: Name,
-        Nickname: Nickname,
-        Mobile: Mobile,
-        Birth: Birth,
-        Email: Email,
-        Univ: Univ,
-      }).then((res) => {
-        alert("회원가입 성공");
-        console.log(res.data);
-      })
-      .catch(function (err) {
-        alert("error는 " + err);
-      });
     alert("끝");
   }
     
@@ -257,6 +266,7 @@ export default function Join() {
       })
       .then(response => {
         alert(response.data);
+
       })
       .catch(function () {
         alert("실패");
@@ -275,16 +285,16 @@ export default function Join() {
     <div id="wrapper">
       <Header />
 
-      <div id="form-wrapper">
+      <div className={styles.form_wrapper}>
         <form action ="/joinForm" method="POST">
 
           
-          <div id="form-content">
-            <div className="id">
+          <div className={styles.form_content}>
+            <div className={styles.id}>
               아이디 <br />
               <input
                 type="text"
-                id="ID"
+                className={styles.input}
                 name="id"
                 placeholder="UserId"
                 defaultValue={ID || ""}
@@ -292,17 +302,17 @@ export default function Join() {
               /><br />
             </div>
             <div
-              id="empty_err"
+              className={styles.empty_err}
               style={{visibility: idOK ? 'visible' : 'hidden'}}
             >{idMsg}</div>
           </div>
 
-          <div id="form-content">
+          <div className={styles.form_content}>
             <div className="pw">
               비밀번호 <br />
               <input
                 type="password"
-                id="PW"
+                className={styles.input}
                 name="password"
                 placeholder="Password"
                 defaultValue={PW || ""}
@@ -310,17 +320,17 @@ export default function Join() {
               /><br />
             </div>
             <div
-              id="empty_err"
+              className={styles.empty_err}
               style={{visibility: PWOK ? 'visible' : 'hidden'}}
             >{PWMsg}</div>
           </div>
 
-          <div id="form-content">
+          <div className={styles.form_content}>
             <div className="chk_pw">
               비밀번호 확인<br />
               <input
                 type="password"
-                id="chk_PW"
+                className={styles.input}
                 name="password"
                 placeholder="Password"
                 defaultValue={Chk_PW || ""}
@@ -328,17 +338,17 @@ export default function Join() {
               /><br />
             </div>
             <div
-              id="empty_err"
+              className={styles.empty_err}
               style={{visibility: ChkOK ? 'visible' : 'hidden'}}
             >{ChkMsg}</div>
           </div>
 
-          <div id="form-content">
+          <div className={styles.form_content}>
             <div className="name">
               이름 <br />
               <input
                 type="text"
-                id="NAME"
+                className={styles.input}
                 name="name"
                 placeholder="Username"
                 defaultValue={Name || ""}
@@ -346,75 +356,75 @@ export default function Join() {
               /><br />
             </div>
             <div
-              id="empty_err"
+              className={styles.empty_err}
               style={{visibility: NameOK ? 'visible' : 'hidden'}}
             >{NameMsg}</div>
           </div>
 
-          <div id="form-content">
-            <div className="sex">
+          <div className={styles.form_content}>
+            <div className={styles.sex}>
           
-              <div className="male">
+              <div className={styles.male}>
                 <input
                   type="radio"
-                  id="male"
+                  id='male'
                   name="sex"
                   defaultValue="male"
                   onChange={(e) => setSex('male')}
                 />
-                <label htmlFor="male">남자</label><br />
+                <label className={styles.label} htmlFor="male">남자</label><br />
               </div>
           
-              <div className="female">
+              <div className={styles.female}>
                 <input
                   type="radio"
-                  id="female"
+                  id='female'
                   name="sex"
                   defaultValue="female"
                   onChange={(e) => setSex('female')}
                 />
-                <label htmlFor="female">여자</label><br />
+                <label className={styles.label} htmlFor="female">여자</label><br />
               </div>
               
             </div>
             <div
-              id="sex_err"
+              className={styles.sex_err}
               style={{visibility: SexOK ? 'visible' : 'hidden'}}
             >{SexMsg}</div>
           </div>
 
-          <div id="form-content">
+          <div className={styles.form_content}>
             닉네임 <br />
-            <div className="nickName">
+            <div className={styles.nickName}>
               
               <input
                 type="text"
-                id="NICKNAME"
+                className={styles.input}
                 name="nickName"
                 placeholder="UserNickName"
                 defaultValue={Nickname || ""}
                 onChange={(e) => setNickname(e.target.value)}
               />
               <a
-                className="nickname_search"
+                className={styles.nickname_search}
                 onClick={nickSearch}
               >닉네임 중복 확인</a>
               <br />
             </div>
             <div
-              id="empty_err"
+              className={styles.empty_err}
               style={{visibility: NicknameOK ? 'visible' : 'hidden'}}
             >{NicknameMsg }</div>
           </div>
 
           
 
-          <div id="form-content">
+          <div className={styles.form_content}>
             <div className="mobile">
               핸드폰 번호 <br />
               <input
                 type="tel"
-                id="MOBILE"
+                className={styles.input}
                 name="mobile"
                 placeholder="Phone-Number"
                 defaultValue={Mobile || ""}
@@ -422,42 +432,43 @@ export default function Join() {
               /><br />
             </div>
             <div
-              id="empty_err"
+              className={styles.empty_err}
               style={{visibility: MobileOK ? 'visible' : 'hidden'}}
             >{ MobileMsg}</div>
           </div>
 
-          <div id="form-content">
+          <div className={styles.form_content}>
             <div className="birth">
               생년월일<br />
               <input
                 type="date"
-                id="BIRTH"
+                className={styles.input}
                 name="birthday"
                 defaultValue={Birth || ""}
                 onChange={(e) => setBirth(e.target.value)}
               /><br />
             </div>
             <div
-              id="empty_err"
+              className={styles.empty_err}
               style={{visibility: BirthOK ? 'visible' : 'hidden'}}
             >{BirthMsg }</div>
           </div>
 
-          <div id="form-content">
+          <div className={styles.form_content}>
             이메일 <br/>
-            <div className="email">
+            <div className={styles.email}>
               <input
                 type="text"
-                id="EMAIL"
+                className={styles.input}
                 name="email"
                 placeholder="Email"
                 defaultValue={Email || ""}
                 onChange={(e) => setEmail(e.target.value)}
               />
               <select
-                id='emailSelect'
-                value={UnivNum}
+                className={styles.emailSelect}
+                defaultValue={UnivNum}
+                onChange={emailChange}
               >
                 <option className="emailOp" value="1" onClick={(e) => setUnivNum(e.target.value)}>@dankook.ac.kr</option>
                 <option className="emailOp" value="2" onClick={(e) => setUnivNum(e.target.value)}>@catholic.ac.kr</option>
@@ -467,55 +478,56 @@ export default function Join() {
               <br />
             </div>
             <div
-              id="empty_err"
+              className={styles.empty_err}
               style={{visibility: EmailOK ? 'visible' : 'hidden'}}
             >필수 정보입니다.</div>
           </div>
 
-          <div id="form-content">
+          <div className={styles.form_content}>
             <div className="univ_wrapper">
             대학교 <br/>
-            <div className="univ">
+              <div className={styles.univ}>
                 <input
                   type="text"
+                  className={styles.input}
                   id="univ_out"
                   name="university"
                   placeholder="Ex) 단국대학교"
                   defaultValue={Univ || ""}
                 /><br />
                 <a
-                  href="#pop_info"
-                  className="univ_search"
+                  className={styles.univ_search}
                   onClick={
                     e => setStyle({ display: 'block' })}
                 >대학교 찾기</a>
             </div>
               <div
-                id="empty_err"
+                className={styles.empty_err}
                 style={{visibility: UnivOK ? 'visible' : 'hidden'}}
               >{ UnivMsg}</div>
             </div>
           </div>
 
-          <div id="pop_info" className="pop_wrap" style={style}>
-            <div className="pop_inner">
-              <input
+          <div id="pop_info" className={styles.pop_wrap} style={style}>
+            <div className={styles.pop_inner}>
+              {/* <input
                 type="text"
+                className={styles.univ_input}
                 id="univ_input"
                 name="univ_find"
                 placeholder="찾으시는 대학교를 입력해주세요."
                 
-              />
-              <ul>
-                <li><a name="univ_content" id="1" onClick={univSelect}>단국대학교</a></li>
-                <li><a name="univ_content" id="2" onClick={univSelect}>가톨릭대학교</a></li>
-                <li><a name="univ_content" id="3" onClick={univSelect}>가천대학교</a></li>
-                <li><a name="univ_content" id="4" onClick={univSelect}>서울대학교</a></li>
+              /> */}
+              <ul className={styles.list_wrapper}>
+                <li className={styles.univ_list}><a className={styles.univ_content} id="1" onClick={univSelect}>단국대학교</a></li>
+                <li className={styles.univ_list}><a className={styles.univ_content} id="2" onClick={univSelect}>가톨릭대학교</a></li>
+                <li className={styles.univ_list}><a className={styles.univ_content} id="3" onClick={univSelect}>가천대학교</a></li>
+                <li className={styles.univ_list}><a className={styles.univ_content} id="4" onClick={univSelect}>서울대학교</a></li>
               </ul>
               
               <button
                 type="button"
-                className="btn_close"
+                className={styles.btn_close}
                 onClick={e => {
                 setStyle({display: 'none'})
               }}>닫기</button>
@@ -524,7 +536,7 @@ export default function Join() {
 
 
           <button
-            id="joinbtn"
+            className={styles.joinbtn}
             type="submit"
             formMethod="post"
             onClick={postInfo}
