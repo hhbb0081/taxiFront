@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Header from './components/headerForm';
+import Header from '../components/headerForm';
 import axios from 'axios';
 import styles from './find.module.css';
 

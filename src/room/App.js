@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter,Routes,Route,Link,useParams } from 'react-router-dom';
 import TaxiRoom from './TaxiRoom';
 import TaxiRoomDetail from './TaxiRoomDetail'
-import Login from "./Login";
-import Join from "./Join";
-import Find from "./Find";
+import Login from "../login/Login";
+import Join from "../join/Join";
+import Find from "../login/Find";
 
 function App() {
   const parmas= useParams()
