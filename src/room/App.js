@@ -1,14 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter,Routes,Route,Link,useParams } from 'react-router-dom';
-import TaxiRoom from './room/TaxiRoom';
-import TaxiRoomDetail from './room/TaxiRoomDetail'
+import TaxiRoom from './TaxiRoom';
+import TaxiRoomDetail from './TaxiRoomDetail'
+import Login from "./Login";
+import Join from "./Join";
+import Find from "./Find";
 
 function App() {
   const parmas= useParams()
   return(
     <Routes>
       <Route path='/' element={<TaxiRoom/>}></Route>
-      <Route path='/TaxiRoomDetail/:name' element={<TaxiRoomDetail/>}></Route>
+      <Route path='/TaxiRoomDetail/:name' element={<TaxiRoomDetail />}></Route>
+      <Route path="/login" element={<Login/>}></Route> 
+      <Route path='/join' element={<Join />}></Route> 
+      <Route path='/find' element={<Find/>}></Route> 
     </Routes>
   )
 }
