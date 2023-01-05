@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Header from './components/headerForm';
+import Header from '../components/headerForm';
 import axios from 'axios';
 import styles from './join.module.css';
 
@@ -246,7 +246,7 @@ export default function Join() {
         }, {"Content-Type": 'application/json'});
       alert("회원가입 성공!");
       console.log(response.data);
-      history.replace("/login");
+      // history.replace("/login");
         
     } catch (error) {
       console.log(error);
