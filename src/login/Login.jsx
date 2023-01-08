@@ -26,24 +26,67 @@ export default function Login() {
     }
   }, [idValid, pwValid])
 
+  // const data = new FormData();
+  // data.append()
 
-    async function postInfo(e) {
-    try {
-      e.preventDefault();
-      const response = await axios
-        .get("http://localhost:8080/login", {
-          params: {
-            userId: id,
-            password: password,
-          },
-        });
-      alert("회원가입 성공!");
-      console.log(response.data);
+  //   async function LoginInfo(e) {
+  //   try {
+  //     e.preventDefault();
+  //     const response = await axios
+  //       .post("http://localhost:8080/api/login", {
+  //         userId: id,
+  //         password: password,
+  //       }, {"Content-Type": 'application/form-data'});
+  //     if (response === '1') {
+  //       alert("로그인 성공!");
+  //     }
+  //     else {
+  //       alert("회원 정보가 존재하지 않습니다.");
+  //     }
+  //     console.log(response.data);
         
-    } catch (error) {
-      console.log(error);
-    }
-    alert("끝");
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  //   alert("끝");
+  // }
+
+  const LoginInfo = (e) => {
+    fetch("http://localhost:8080/api/login")
+      .then((res) => {
+        alert(res);
+        console.log(res);
+      }).catch((err) => {
+        alert(err);
+        console.log(err);
+    })
+
+  //   console.log(e);
+  //   var params = new URLSearchParams();
+  //   params.append("userId", id);
+  //   params.append("password", password);
+
+  //   e.preventDefault();
+  //   axios.post("http://localhost:8080/api/login", {
+  //     "userId": id,
+  //     "password": password
+  //   }, { withCredentials: true })
+  //     .then((response) => {
+  //       if (response.data === '1') {
+  //         console.log(response.data);
+  //         alert("로그인에 성공하셨습니다.");
+  //       }
+  //       else {
+  //         console.log(response.data);
+  //         alert("존재하지 않는 회원 정보입니다.");
+  //       }
+  //     })
+  //     .catch(
+  //       (error) => {
+  //         console.log(error);
+  //         alert("에러!");
+  //     }
+  //   )
   }
 
     
@@ -57,7 +100,7 @@ export default function Login() {
       <div className={styles.main_wrapper}>
         <div className={styles.join}><Link to="/Join">회원가입</Link></div>
         <div className={styles.form_wrapper}>
-          <form>
+          <form action ="/api/login" method="POST">
             <div id="id-wrapper">
               <input 
                 type="text" 
@@ -65,7 +108,7 @@ export default function Login() {
                 placeholder="아이디"
                 className={styles.id}
               />
-                
+              
             </div>
             
             <br/>
@@ -80,7 +123,7 @@ export default function Login() {
             </div>
             <br/>
             <div id="btn">
-              <button className={styles.login_btn} onClick={postInfo}>로그인</button></div>
+              <button className={styles.login_btn} onClick={LoginInfo}>로그인</button></div>
 
             <div className="_wrapper">
               <span className={styles.chk_wrapper}>

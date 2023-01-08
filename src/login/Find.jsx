@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Header from '../components/headerForm';
+import Header from './components/headerForm';
 import axios from 'axios';
 import styles from './find.module.css';
 
@@ -7,25 +7,25 @@ export default function Find() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
 
+  var par = {"name": name, "email": email}
   //400에러남 ㅜㅜ
-  async function postInfo(e) {
-    try {
+  function postInfo(e) {
       e.preventDefault();
-      const response = await axios
-        .get("http://localhost:8080/users/findId", {
-          method: "patch",
-          body: {
-            name: name,
-            email: email,
-          }
-        }, { "Content-Type": 'application/json' });
-      alert("아이디 찾기 성공");
-      console.log(response.data);
-    } catch(err) {
-          alert("error는 " + err);
+    axios
+      .get("http://localhost:8080/users/findId")
+      //   {
+      //   data: JSON.stringify(par),
+      // }, { "Content-Type": "application/json; charset=utf-8" }
+      .then(function (response) {
+        alert("아이디 찾기 성공");
+        console.log(response.data);
+      }).catch(function (error) {
+        alert("error는 " + error);
+        console.log(error);
+      }).then(function () {
+        alert("끝");
+      });
     }
-    alert("끝");
-  }
 
   return (
     <div>
@@ -33,7 +33,7 @@ export default function Find() {
       <div className={styles.main_wrapper}>
         <h1>아이디 찾기</h1>
         <div >
-          <form className={styles.form_wrapper} action ="/findId" method="GET">
+          <form onSubmit={postInfo} className={styles.form_wrapper} action ="/find" method="GET">
             <input
               type="text"
               name="name"
@@ -49,9 +49,10 @@ export default function Find() {
               placeholder="UserEmail"
               onChange={(e) => setEmail(e.target.value)}
             />
+            {/* <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/> */}
             <button
               className={styles.btn}
-              onClick={postInfo}
+              type="submit"
             >아이디 찾기</button>
           </form>
         </div>
