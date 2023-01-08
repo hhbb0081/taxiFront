@@ -14,6 +14,15 @@ function TaxiRoomDetail(){
                     <button className="btn btn-info btn-sm" onClick={() => navigate(-1) } >채팅방 나가기</button>
                 </div>
             </div>
+            <div className="input-group">
+                <div className="input-group-prepend">
+                    <label className="input-group-text">내용</label>
+                </div>
+                <input type="text" className="form-control" v-model="message"/>
+                <div className="input-group-append">
+                    <button className="btn btn-primary" type="button">보내기</button>
+                </div>
+            </div>
         </div>
     )
 }
