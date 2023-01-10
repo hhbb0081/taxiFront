@@ -12,7 +12,7 @@ function App() {
     <Routes>
       <Route path='/' element={<TaxiRoom/>}></Route>
       <Route path='/TaxiRoomDetail/:name' element={<TaxiRoomDetail />}></Route>
-      <Route path="/login" element={<Login/>}></Route> 
+      <Route path="/api/login" element={<Login/>}></Route> 
       <Route path='/join' element={<Join />}></Route> 
       <Route path='/find' element={<Find/>}></Route> 
     </Routes>

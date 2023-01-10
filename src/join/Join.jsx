@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 export default function Join() {
 
   const [style, setStyle] = useState({ display: 'none' })
+  const [EmailStyle, setEmailStyle] = useState({ display: 'none' });
 
   //유효성 검사
   const [idOK, setIdOK] = useState(true)
@@ -50,6 +51,8 @@ export default function Join() {
   const [BirthMsg, setBirthMsg] = useState('')
   const [EmailMsg, setEmailMsg] = useState('')
   const [UnivMsg, setUnivMsg] = useState('')
+
+  const [EmailCode, setEmailCode] = useState('');
 
 
   function emailChange(e) {
@@ -231,7 +234,7 @@ export default function Join() {
       // }
       e.preventDefault();
       const response = await axios
-        .post("http://localhost:8080/users", {
+        .post("http://localhost:8080/api/user/join", {
           userId: ID,
           password: PW,
           name: Name,
@@ -254,6 +257,23 @@ export default function Join() {
     alert("끝");
   }
     
+  //이메일 인증 코드 확인
+  function EmailAuth(e) {
+    axios.get('http://localhost:8080/api/join/email/mailConfirm').then((response) => {
+      console.log(response);
+      if (response.json() == EmailCode) {
+        alert('인증 완료되었습니다.');
+      }
+      else {
+        alert('인증 번호가 일치하지 않습니다.');
+      }
+    });
+  }
+
+  function EmailBox(e) {
+    setEmailStyle({ style: "display" });
+  }
+
   var sendNick = JSON.stringify({
     "Nickname": Nickname,
   })
@@ -475,12 +495,31 @@ export default function Join() {
                 <option className="emailOp" value="3" onClick={(e) => setUnivNum(e.target.value)}>@kacheon.ac.kr</option>
                 <option className="emailOp" value="4" onClick={(e) => setUnivNum(e.target.value)}>@snu.ac.kr</option>
               </select>
+
+              <a
+                className={styles.nickname_search}
+                onClick={EmailBox}
+              >이메일 인증</a>
               <br />
             </div>
             <div
               className={styles.empty_err}
               style={{visibility: EmailOK ? 'visible' : 'hidden'}}
             >필수 정보입니다.</div>
+          </div>
+
+          <div style={EmailStyle}>
+            <form method='get'>
+              <input
+                value={EmailCode}
+                className={styles.emailAuth_input}
+                onChange={(e) => setEmailCode(e.target.value)}
+              />
+              <button
+                className={styles.email_auth}
+                onClick={EmailAuth}
+              >인증</button>
+            </form>
           </div>
 
           <div className={styles.form_content}>
@@ -494,6 +533,7 @@ export default function Join() {
                   name="university"
                   placeholder="Ex) 단국대학교"
                   defaultValue={Univ || ""}
+                  onChange={(e) => setUniv(e.target.value)}
                 /><br />
                 <a
                   className={styles.univ_search}
