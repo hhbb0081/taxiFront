@@ -76,6 +76,17 @@ input[type="email"]*/
   text-align: center;
 }
 
+.emailAuth_input{
+  width: 300px;
+}
+
+.email_auth{
+  width: 70px;
+  margin-left: 25px;
+  background-color: black;
+  color: white;
+}
+
 .univ,
 .nickName,
 .email {

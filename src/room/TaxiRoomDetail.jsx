@@ -15,7 +15,7 @@ function TaxiRoomDetail(props){
 
     const sendMessage=()=>{
         ws.send("http://localhost:8080/app/chat/message",{},JSON.stringify({type:'TALK',message:message,roomId:roomId,sender:sender}))
-        setMessage(' ')
+        setMessage('')
     }
 
     const findRoom=()=>{
