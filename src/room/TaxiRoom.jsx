@@ -3,6 +3,7 @@ import styles from './TaxiRoom.module.css'
 import 'bootstrap/dist/css/bootstrap.css';
 import axios from "axios"
 import {Link } from "react-router-dom";
+import TaxiRoomDetail from "./TaxiRoomDetail";
 
 
 
@@ -44,7 +45,7 @@ function TaxiRoom(){
     },[])
       
     const findAllroom=()=>{
-        axios.get('/chat/rooms')
+        axios.get('http://localhost:8080/chat/rooms')
         .then((response) => { 
             setList(response.data); 
             console.log(list)
@@ -79,21 +80,20 @@ function TaxiRoom(){
         }
     }
 
-    const a=()=>{
-        console.log(ItemList)
-    }
+    
 
 
     const enterRoom=(e)=>{
         var sender = prompt('대화명을 입력해 주세요.');
         if(sender !== "") {
             localStorage.setItem('sender',sender);
-            localStorage.setItem('roomId',ItemList);
+            localStorage.setItem('roomId',e.roomName);
         }
-        console.log(e.key)
     }
+   
     return(
         <>
+            
             <div id={styles.title}>
                 <img id={styles.taxiImage} src="taxi-image.png"></img>
                 <h2>택시합승</h2>
@@ -118,7 +118,7 @@ function TaxiRoom(){
                         </div>
                     </div>
                     <ul className="list-group">
-                        {list.map((item,idx)=>{return item.id==0?null:<Link to={"/TaxiRoomDetail/"+item.roomName}><li onClick={()=>{enterRoom()}} key={item.roomId} className="list-group-item list-group-item-action" id={styles.list}>방 제목 : {item.roomName}<span className="badge badge-info badge-pill"> {item.userCount}</span></li></Link>})} 
+                        {list.map((item,idx)=>{return item.id==0?null:<Link to={"/TaxiRoomDetail/"+item.roomName}><li onClick={()=>{enterRoom(item)}} key={item.roomId} className="list-group-item list-group-item-action" id={styles.list}>방 제목 : {item.roomName}<span className="badge badge-info badge-pill"> {item.userCount}</span></li></Link>})} 
                     </ul>
                 </div>
             </div>

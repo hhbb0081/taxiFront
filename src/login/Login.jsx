@@ -30,6 +30,16 @@ export default function Login() {
     async function postInfo(e) {
     try {
       e.preventDefault();
+      axios.get("http://localhost:8080/login")
+      .then((response)=>{
+        console.log(response)
+        console.log(response.data)
+      })
+      .catch(
+        (error)=>{
+          console.log(error)
+        }
+      )
       const response = await axios
         .get("http://localhost:8080/login", {
           params: {
