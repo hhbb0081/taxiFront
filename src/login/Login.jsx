@@ -5,6 +5,8 @@ import styles from'./login.module.css'
 
 import { Link } from "react-router-dom";
 
+axios.defaults.withCredentials = true;
+
 export default function Login() {
   axios.defaults.withCredentials = true;
 
@@ -52,43 +54,17 @@ export default function Login() {
   // }
 
   const LoginInfo = (e) => {
-    fetch("http://localhost:8080/api/login")
-      .then((res) => {
-        alert(res);
-        console.log(res);
-      }).catch((err) => {
-        alert(err);
-        console.log(err);
+  var form = new FormData()
+  form.append("userId", id);
+  form.append("password", password);
+
+  axios.post('http://localhost:8080/login', form)
+    .then( response => {
+      console.log('response : ', JSON.stringify(response, null, 2))
+    }).catch( error => {
+      console.log('failed', error)
     })
-
-  //   console.log(e);
-  //   var params = new URLSearchParams();
-  //   params.append("userId", id);
-  //   params.append("password", password);
-
-  //   e.preventDefault();
-  //   axios.post("http://localhost:8080/api/login", {
-  //     "userId": id,
-  //     "password": password
-  //   }, { withCredentials: true })
-  //     .then((response) => {
-  //       if (response.data === '1') {
-  //         console.log(response.data);
-  //         alert("로그인에 성공하셨습니다.");
-  //       }
-  //       else {
-  //         console.log(response.data);
-  //         alert("존재하지 않는 회원 정보입니다.");
-  //       }
-  //     })
-  //     .catch(
-  //       (error) => {
-  //         console.log(error);
-  //         alert("에러!");
-  //     }
-  //   )
   }
-
     
   
 
@@ -100,11 +76,11 @@ export default function Login() {
       <div className={styles.main_wrapper}>
         <div className={styles.join}><Link to="/Join">회원가입</Link></div>
         <div className={styles.form_wrapper}>
-          <form action ="/api/login" method="POST">
+          <form method="POST">
             <div id="id-wrapper">
               <input 
                 type="text" 
-                name="id" 
+                name="userId" 
                 placeholder="아이디"
                 className={styles.id}
               />
@@ -123,7 +99,10 @@ export default function Login() {
             </div>
             <br/>
             <div id="btn">
-              <button className={styles.login_btn} onClick={LoginInfo}>로그인</button></div>
+            <button
+              className={styles.login_btn}
+              onClick={LoginInfo}
+            >로그인</button></div>
 
             <div className="_wrapper">
               <span className={styles.chk_wrapper}>
