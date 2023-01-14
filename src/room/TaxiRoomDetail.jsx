@@ -2,62 +2,82 @@ import axios from "axios";
 import { useState,useEffect,useRef } from "react";
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
-import SockJS from 'socketjs-client'
-import Stomp from 'stompjs'
+import SockJS from 'sockjs-client'
+import Stomp from "stompjs";
+
 
 function TaxiRoomDetail(props){
     const[message,setMessage]=useState('')
     const[roomId,setRoomId]=useState('')
     const[sender,setSender]=useState('')
-    const[room,setRoom]=useState({})
+    let [messageList,setMessageList]=useState([{
+        
+    }]);
+    let num=0
+    const no = useRef(1)
+
     const onChange = (e)=>setMessage(e.target.value);
     
 
     const sendMessage=()=>{
-        ws.send("http://localhost:8080/app/chat/message",{},JSON.stringify({type:'TALK',message:message,roomId:roomId,sender:sender}))
+        ws.send("/app/chat/message",{},JSON.stringify({type:'TALK',message:message,roomId:roomId,sender:sender}))
         setMessage('')
     }
 
-    const findRoom=()=>{
-        axios.get("/chat/room/"+roomId)
-        .then((response) => { 
-            setRoom(response.data); 
-            console.log(response.data)
-        })
-        .catch((err)=>{
-            console.log(err)
-        })
-    }
+    
 
     const created=()=>{
         setRoomId(localStorage.getItem('roomId'));
         setSender(localStorage.getItem('sender'));
-        findRoom()
     }
 
-    useEffect(()=>{
-        created()
-    },[])
     
 
-    useEffect(()=>{
-        ws.connect({},()=>{
-            ws.subscribe("http://localhost:8080/topic/chat/room"+roomId,function(message){
-                const recv=JSON.parse(message.body)
-            })
-            ws.send("http://localhost:8080/app/chat/message",{},JSON.stringify({type:'ENTER',roomId:roomId,sender:sender}));
-        })
-    },[])
-
-    var sock = new SockJS("http://localhost:8080/ws/chat");
-    var ws = Stomp.over(sock);
-    var reconnect = 0;
+    const recvMessage=(recv)=>{
+        setMessageList((prev)=>{
+                return[
+                    {
+                        id:no.current++,
+                        inMessage:recv.message,
+                        sender:recv.sender
+                    },
+                    ...prev
+                ]
+            }
+               
+        )
+    }
+    
+ 
     let navigate = useNavigate();
+    
+    let sock = new SockJS("http://localhost:8080/ws/chat");
+    let ws = Stomp.over(sock);
+
+   
+    useEffect(()=>{
+        created()
+        ws.connect({},()=>{
+            ws.subscribe("/topic/chat/room/"+roomId,(response)=>{
+                const recv = JSON.parse(response.body);
+                recvMessage(recv);
+                console.log(recv)
+            });
+            ws.send("/app/chat/message", {}, JSON.stringify({type:'ENTER', roomId:roomId, sender:sender}));    
+        }) 
+    },[sender])
+
+    const a=()=>{
+        console.log(messageList)
+    }
     return(
-        <div>
+        <div className="container">
+            
+            <script src="/webjars/sockjs-client/1.5.1/sockjs.min.js"></script>
+            <script src="/webjars/stomp-websocket/2.3.4/stomp.min.js"></script> 
             <div className="row">
                 <div className="col-md-6">
-                    <h4>{room.name}<span class="badge badge-info badge-pill"></span></h4>
+                    <h4><span className="badge badge-info badge-pill"></span></h4>
                 </div>
                 <div className="col-md-6 text-right">
                     <button className="btn btn-info btn-sm" onClick={() => navigate(-1) } >채팅방 나가기</button>
@@ -72,6 +92,9 @@ function TaxiRoomDetail(props){
                     <button className="btn btn-primary" type="button" onClick={sendMessage}>보내기</button>
                 </div>
             </div>
+            <ul className="list-group">
+                {messageList.map((item,idx)=>{return item.sender==item.inMessage?<li className="list-group-item" key={item.key}>{item.sender}-입장</li>:<li className="list-group-item" key={item.key}>{item.sender}-{item.inMessage}</li>})}
+            </ul>
         </div>
     )
 }

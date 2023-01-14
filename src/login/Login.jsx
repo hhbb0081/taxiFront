@@ -54,16 +54,15 @@ export default function Login() {
   // }
 
   const LoginInfo = (e) => {
-  var form = new FormData()
-  form.append("userId", id);
-  form.append("password", password);
+    var form = new FormData()
+    form.append("userId", id);
+    form.append("password", password);
 
-  axios.post('http://localhost:8080/login', form)
+    axios.post('http://localhost:8080/login', form)
     .then( response => {
-      console.log('response : ', JSON.stringify(response, null, 2))
-    }).catch( error => {
-      console.log('failed', error)
+      alert("success")
     })
+    
   }
     
   

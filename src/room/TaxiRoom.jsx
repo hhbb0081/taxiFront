@@ -84,10 +84,11 @@ function TaxiRoom(){
 
 
     const enterRoom=(e)=>{
+        console.log(e)
         var sender = prompt('대화명을 입력해 주세요.');
         if(sender !== "") {
             localStorage.setItem('sender',sender);
-            localStorage.setItem('roomId',e.roomName);
+            localStorage.setItem('roomId',e);
         }
     }
    
@@ -118,7 +119,7 @@ function TaxiRoom(){
                         </div>
                     </div>
                     <ul className="list-group">
-                        {list.map((item,idx)=>{return item.id==0?null:<Link to={"/TaxiRoomDetail/"+item.roomName}><li onClick={()=>{enterRoom(item)}} key={item.roomId} className="list-group-item list-group-item-action" id={styles.list}>방 제목 : {item.roomName}<span className="badge badge-info badge-pill"> {item.userCount}</span></li></Link>})} 
+                        {list.map((item,idx)=>{return item.id==0?null:<Link to={"/TaxiRoomDetail/"+item.roomName}><li onClick={()=>{enterRoom(item.roomId)}} key={item.roomId} className="list-group-item list-group-item-action" id={styles.list}>방 제목 : {item.roomName}<span className="badge badge-info badge-pill"> {item.userCount}</span></li></Link>})} 
                     </ul>
                 </div>
             </div>
