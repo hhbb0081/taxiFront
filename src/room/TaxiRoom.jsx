@@ -3,7 +3,6 @@ import styles from './TaxiRoom.module.css'
 import 'bootstrap/dist/css/bootstrap.css';
 import axios from "axios"
 import {Link } from "react-router-dom";
-import TaxiRoomDetail from "./TaxiRoomDetail";
 
 
 
