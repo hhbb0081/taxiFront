@@ -1,17 +1,28 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef} from 'react'
 import axios from 'axios';
 import Header from '../components/headerForm';
-import styles from'./login.module.css'
+import styles from './login.module.css'
+import { useCookies } from 'react-cookie';
+import { setCookie, getCookie } from '../cookie.js';
 
-import { Link } from "react-router-dom";
+
+import { Link, useNavigate } from "react-router-dom";
 
 axios.defaults.withCredentials = true;
 
 export default function Login() {
   axios.defaults.withCredentials = true;
 
+  const navigate = useNavigate();
+  const formRef = useRef();
+  var userInfo = [];
+
+
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
+  const [cookies, setCookie, removeCookie] = useCookies(['cookie']);
+  const [logged, setLogged] = useState(false);
+  const [checked, setChecked] = useState(false);
 
   const [idValid, setIdValid] = useState(false);
   const [pwValid, setPwValid] = useState(false);
@@ -28,45 +39,73 @@ export default function Login() {
     }
   }, [idValid, pwValid])
 
-  // const data = new FormData();
-  // data.append()
+  //axios
 
-  //   async function LoginInfo(e) {
-  //   try {
-  //     e.preventDefault();
-  //     const response = await axios
-  //       .post("http://localhost:8080/api/login", {
-  //         userId: id,
-  //         password: password,
-  //       }, {"Content-Type": 'application/form-data'});
-  //     if (response === '1') {
-  //       alert("로그인 성공!");
-  //     }
-  //     else {
-  //       alert("회원 정보가 존재하지 않습니다.");
-  //     }
-  //     console.log(response.data);
-        
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  //   alert("끝");
-  // }
-
-  const LoginInfo = (e) => {
-  var form = new FormData()
-  form.append("userId", id);
-  form.append("password", password);
-
-  axios.post('http://localhost:8080/login', form)
-    .then( response => {
-      console.log('response : ', JSON.stringify(response, null, 2))
-    }).catch( error => {
-      console.log('failed', error)
-    })
-  }
+  async function postInfo(e) {
+    try {
+      
+      e.preventDefault();
+      // const token = cookies.id;
+      const response = await axios
+        .post("http://localhost:8080/login", {
+          // token: token,
+          userId: formRef.current.userId.value,
+          password: formRef.current.password.value,
+          // username: id,
+          // password: password,
+        }, { "Content-Type": 'application/json' });
+      console.log(getCookie('cookie'));
+      if (checked) {
+        handleCookie(id, password)
+      }
+      console.log(response);
+      console.log(checked);
+      
+        //로그인 성공 시
+        if (response.data == 1) {
+          alert("로그인 성공!");
+          window.localStorage.setItem("username", id);
+          window.localStorage.setItem("password", password);
+          setLogged(true);
+          getInfo();
+          
+        }    
+      
+      
+    } catch (error) {
+      console.log(error);
+    }
     
-  
+  }
+
+  //사용자 정보 가져오기
+  async function getInfo() {
+    // e.preventDefault();
+    const response = await fetch(`http://localhost:8080/api/user/${id}`)
+    if (response.status == 200) {
+      const data = await response.json()
+      console.log(data);
+      window.localStorage.setItem("nickname", data["nickName"]);
+      window.localStorage.setItem("university", data["university"]);
+      navigate('/');
+    }
+    else {
+      throw new Error('err 발생')
+    }
+  }
+
+  const handleCookie = (userId, password) => {
+    setCookie(
+        'cookie',
+        {
+          userId: userId,
+          password: password,
+        },
+        {
+          path: '/',
+        }
+      );
+  }  
 
   return (
     <div>
@@ -76,13 +115,16 @@ export default function Login() {
       <div className={styles.main_wrapper}>
         <div className={styles.join}><Link to="/Join">회원가입</Link></div>
         <div className={styles.form_wrapper}>
-          <form method="POST">
+          <form /*action="/login" method="POST" */ref={formRef} >
             <div id="id-wrapper">
               <input 
                 type="text" 
                 name="userId" 
+                value={id}
+                onChange={(e) => setId(e.target.value)}
                 placeholder="아이디"
                 className={styles.id}
+                required
               />
               
             </div>
@@ -92,16 +134,21 @@ export default function Login() {
             <div id="pw-wrapper">
               <input 
                 type="password" 
-                name="password" 
+                name="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 placeholder="비밀번호"
                 className={styles.pw}
+                required
               />
             </div>
             <br/>
             <div id="btn">
             <button
               className={styles.login_btn}
-              onClick={LoginInfo}
+              // type="submit"
+              // formMethod="post"
+              onClick={postInfo}
             >로그인</button></div>
 
             <div className="_wrapper">
@@ -111,6 +158,7 @@ export default function Login() {
                   type="checkbox"
                   name="login_man"
                   className={styles.login_man}
+                  onClick={e => setChecked(true)}
                   placeholder="로그인 유지"
                 />
                 <label
@@ -133,3 +181,5 @@ export default function Login() {
     </div>
   )
 }
+
+
