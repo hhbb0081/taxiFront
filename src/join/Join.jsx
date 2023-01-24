@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Header from '../components/headerForm';
 import axios from 'axios';
 import styles from './join.module.css';
+import 'url-search-params-polyfill';
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 
 export default function Join() {
 
+  const navigate = useNavigate();
   const [style, setStyle] = useState({ display: 'none' })
   const [EmailStyle, setEmailStyle] = useState({ display: 'none' });
 
@@ -34,7 +36,7 @@ export default function Join() {
   const [Nickname, setNickname] = useState('');
   const [Mobile, setMobile] = useState('');
   const [Birth, setBirth] = useState('');
-  const [Email, setEmail] = useState('');
+  var [Email, setEmail] = useState('');
   const [Univ, setUniv] = useState('');
 
   const [UnivNum, setUnivNum] = useState('1');
@@ -53,12 +55,11 @@ export default function Join() {
   const [UnivMsg, setUnivMsg] = useState('')
 
   const [EmailCode, setEmailCode] = useState('');
+  const [EmailAnswer, setEmailAnswer] = useState('');
 
 
-  function emailChange(e) {
-    setUnivNum(e.target.value);
-    console.log(e.target.value);
-  }
+  const inputRef = useRef(null);
+
 
   useEffect(() => {
     if (PW !== undefined &&
@@ -210,18 +211,6 @@ export default function Join() {
     }
   }, [Univ]);
 
-  // var sendData = JSON.stringify({
-  //   "ID": ID,
-  //   "PW": PW,
-  //   "Chk_PW": Chk_PW,
-  //   "Name": Name,
-  //   "Nickname": Nickname,
-  //   "Sex": Sex,
-  //   "Mobile": Mobile,
-  //   "Birth": Birth,
-  //   "Email": Email,
-  //   "Univ": Univ,
-  // })
 
   //회원가입 버튼 누른 후 정보 보냄
   async function postInfo(e) {
@@ -242,14 +231,14 @@ export default function Join() {
           sex: Sex,
           mobile: Mobile,
           birthday: Birth,
-          email: Email,
+          email: Email + inputRef.current[UnivNum - 1].innerText,
           university: Univ,
           provider: null,
           providerId: null,
         }, {"Content-Type": 'application/json'});
       alert("회원가입 성공!");
-      console.log(response.data);
-      // history.replace("/login");
+      console.log(response);
+      navigate('/login');
         
     } catch (error) {
       console.log(error);
@@ -257,21 +246,44 @@ export default function Join() {
     alert("끝");
   }
     
-  //이메일 인증 코드 확인
+  //이메일 인증 코드 일치 확인
   function EmailAuth(e) {
-    axios.get('http://localhost:8080/api/join/email/mailConfirm').then((response) => {
-      console.log(response);
-      if (response.json() == EmailCode) {
-        alert('인증 완료되었습니다.');
-      }
-      else {
-        alert('인증 번호가 일치하지 않습니다.');
-      }
-    });
+    e.preventDefault();
+
+    if (JSON.stringify(EmailCode) === EmailAnswer) {
+      alert("인증 완료되었습니다.");
+    }
+    else {
+      alert("인증 번호가 다릅니다.");
+      setEmailCode("");
+    }
+
   }
 
+  //이메일 인증 코드 보내기
+  var params = new URLSearchParams();
+  
   function EmailBox(e) {
+    if (Email === "") {
+      alert("이메일을 입력해주세요.");
+      return;
+    }
     setEmailStyle({ style: "display" });
+
+    Email += inputRef.current[UnivNum - 1].innerText
+    console.log(Email);
+    params.append('email', Email);
+    
+    e.preventDefault();
+    axios.post('http://localhost:8080/api/join/email/mailConfirm', params, {
+      withCredentials: true,
+    })
+      .then((response) => {
+        setEmailAnswer(JSON.stringify(response.data));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   var sendNick = JSON.stringify({
@@ -298,6 +310,12 @@ export default function Join() {
   function univSelect(e) {
     setUnivNum(e.target.id);
     setUniv(e.target.innerText);
+  }
+
+  function emailChange(e) {
+    setUnivNum(e.target.value);
+    // setEmail(Email + inputRef.current[UnivNum - 1].innerText);
+    // console.log(Email);
   }
 
   return (
@@ -489,10 +507,11 @@ export default function Join() {
                 className={styles.emailSelect}
                 defaultValue={UnivNum}
                 onChange={emailChange}
+                ref={inputRef}
               >
                 <option className="emailOp" value="1" onClick={(e) => setUnivNum(e.target.value)}>@dankook.ac.kr</option>
                 <option className="emailOp" value="2" onClick={(e) => setUnivNum(e.target.value)}>@catholic.ac.kr</option>
-                <option className="emailOp" value="3" onClick={(e) => setUnivNum(e.target.value)}>@kacheon.ac.kr</option>
+                <option className="emailOp" value="3" onClick={(e) => setUnivNum(e.target.value)}>@gachon.ac.kr</option>
                 <option className="emailOp" value="4" onClick={(e) => setUnivNum(e.target.value)}>@snu.ac.kr</option>
               </select>
 
@@ -509,17 +528,15 @@ export default function Join() {
           </div>
 
           <div style={EmailStyle}>
-            <form method='get'>
-              <input
-                value={EmailCode}
-                className={styles.emailAuth_input}
-                onChange={(e) => setEmailCode(e.target.value)}
-              />
-              <button
-                className={styles.email_auth}
-                onClick={EmailAuth}
-              >인증</button>
-            </form>
+            <input
+              value={EmailCode}
+              className={styles.emailAuth_input}
+              onChange={(e) => setEmailCode(e.target.value)}
+            />
+            <button
+              className={styles.email_auth}
+              onClick={EmailAuth}
+            >인증</button>
           </div>
 
           <div className={styles.form_content}>
@@ -550,14 +567,7 @@ export default function Join() {
 
           <div id="pop_info" className={styles.pop_wrap} style={style}>
             <div className={styles.pop_inner}>
-              {/* <input
-                type="text"
-                className={styles.univ_input}
-                id="univ_input"
-                name="univ_find"
-                placeholder="찾으시는 대학교를 입력해주세요."
-                
-              /> */}
+              
               <ul className={styles.list_wrapper}>
                 <li className={styles.univ_list}><a className={styles.univ_content} id="1" onClick={univSelect}>단국대학교</a></li>
                 <li className={styles.univ_list}><a className={styles.univ_content} id="2" onClick={univSelect}>가톨릭대학교</a></li>
