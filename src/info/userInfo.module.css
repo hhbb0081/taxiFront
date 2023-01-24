@@ -1,0 +1,16 @@
+.legend {
+  display: block;
+  padding-left: 2px;
+  padding-right: 2px;
+  border: none;
+}
+
+/* .legend {
+  background-color: #000;
+  color: #fff;
+  padding: 3px 6px;
+} */
+
+.fieldset{
+  background-color: #eeeeee;
+}
