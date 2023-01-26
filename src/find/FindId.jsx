@@ -3,40 +3,46 @@ import Header from '../components/headerForm';
 import axios from 'axios';
 import styles from './find.module.css';
 
-export default function Find() {
+axios.defaults.withCredentials = true;
+
+export default function FindId() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
 
-  var par = {"name": name, "email": email}
-  //400에러남 ㅜㅜ
+  const [id, setId] = useState('');
+
   function postInfo(e) {
-      e.preventDefault();
-    axios
-      .get("http://localhost:8080/users/findId")
-      //   {
-      //   data: JSON.stringify(par),
-      // }, { "Content-Type": "application/json; charset=utf-8" }
-      .then(function (response) {
+    e.preventDefault();
+    axios.post('http://localhost:8080/api/user/findId', {
+        name: name, email: email
+    }, { "Content-Type": 'application/json' }
+    ).then(function (response) {
         alert("아이디 찾기 성공");
         console.log(response.data);
+        setId(response.data);
       }).catch(function (error) {
         alert("error는 " + error);
-        console.log(error);
-      }).then(function () {
-        alert("끝");
+        console.log(error.response);
       });
-    }
+
+  }
 
   return (
     <div>
       <Header />
       <div className={styles.main_wrapper}>
         <h1>아이디 찾기</h1>
-        <div >
-          <form onSubmit={postInfo} className={styles.form_wrapper} action ="/find" method="GET">
+        <div>
+          <form
+            className={styles.form_wrapper}
+            action="/api/user/findId"
+            method="GET"
+            onSubmit={postInfo}
+          >
             <input
               type="text"
               name="name"
+              value={name}
               className={styles.input}
               placeholder="Username"
               onChange={(e) => setName(e.target.value)}
@@ -45,6 +51,7 @@ export default function Find() {
             <input
               type="email"
               name="email"
+              value={email}
               className={styles.input}
               placeholder="UserEmail"
               onChange={(e) => setEmail(e.target.value)}
@@ -53,6 +60,8 @@ export default function Find() {
             <button
               className={styles.btn}
               type="submit"
+              formMethod="get"
+              // onClick={postInfo}
             >아이디 찾기</button>
           </form>
         </div>

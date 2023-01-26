@@ -2,17 +2,30 @@ import React,{useState,useRef,useEffect} from "react";
 import styles from './TaxiRoom.module.css'
 import 'bootstrap/dist/css/bootstrap.css';
 import axios from "axios"
-import {Link } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
+import { clear } from '@testing-library/user-event/dist/clear';
 
-
-
-function TaxiRoom(){
+function TaxiRoom() {
+    const navigate = useNavigate();
     const [roomName,setRoomName]=useState("");
-    const [list,setList]=useState([]);
+    const [list, setList] = useState([]);
+    const [univ, setUniv] = useState(window.localStorage.getItem("university"));
+    const [nick, setNick] = useState(window.localStorage.getItem("nickname"));
     let [ItemList,setItemList]=useState([{
         id:0
     }]);
     const no = useRef(1)
+
+
+    const logout = () => {
+        window.localStorage.clear();
+        setUniv("");
+        setNick("");
+    }
+
+    const clickInfo = (e) => {
+        navigate('/info')
+    }
 
     const AddList=()=>{
         if(roomName===""){
@@ -106,9 +119,16 @@ function TaxiRoom(){
                 <div id={styles.inform}>
                     <div id={styles.my}>
                         <img id={styles.profile} src="bus.png"></img>
-                        <h5 id={styles.nick}>굿보이</h5>
-                        <h5 id={styles.college}>가천대</h5>
-                        <button id={styles.button1}>내정보</button><button id={styles.button2}>로그아웃</button>
+                        <h5 id={styles.nick}>{nick}</h5>
+                        <h5 id={styles.college}>{univ}</h5>
+                        <button
+                            id={styles.button1}
+                            onClick={clickInfo}
+                        >내정보</button>
+                        <button
+                            id={styles.button2}
+                            onClick={logout}
+                        >로그아웃</button>
                     </div>
                     <div id={styles.my2}>
                         <iframe id={styles.advertisement} src="https://forecast.io/embed/#lat=37.5266&lon=127.0403&name=서울&color=&font=&units=si"></iframe>
