@@ -19,6 +19,7 @@ function TaxiRoomDetail(props){
     const focusRef = useRef();
 
     const onChange = (e)=>setMessage(e.target.value);
+
     
 
     const sendMessage=()=>{
@@ -88,8 +89,6 @@ function TaxiRoomDetail(props){
     
     return(
         <div className="container">
-            <script src="/webjars/sockjs-client/1.5.1/sockjs.min.js"></script>
-            <script src="/webjars/stomp-websocket/2.3.4/stomp.min.js"></script> 
             <div className="row">
                 <div className="col-md-6">
                     <h4><span className="badge badge-info badge-pill"></span></h4>

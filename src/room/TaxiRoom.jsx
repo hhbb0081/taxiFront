@@ -87,18 +87,22 @@ function TaxiRoom(){
         var sender = prompt('대화명을 입력해 주세요.');
         if(sender !== "") {
             localStorage.setItem('sender',sender);
-            localStorage.setItem('roomId',e);
+            localStorage.setItem('roomId',e.roomId);
+            document.location.href="/TaxiRoomDetail/"+e.roomName
+        }
+        else{
+            
         }
     }
    
     return(
         <>
             
-            <div id={styles.title}>
-                <img id={styles.taxiImage} src="taxi-image.png"></img>
+            <div id={styles.ti}>
+                <img id={styles.taxiImage} src="Taxi.jpg"></img>
                 <h2>택시합승</h2>
             </div>
-            <div id={styles.wrapper}>
+            <div id={styles.wrap}>
                 <div id={styles.inform}>
                     <div id={styles.my}>
                         <img id={styles.profile} src="bus.png"></img>
@@ -106,6 +110,11 @@ function TaxiRoom(){
                         <h5 id={styles.college}>가천대</h5>
                         <button id={styles.button1}>내정보</button><button id={styles.button2}>로그아웃</button>
                     </div>
+                    <div id={styles.my2}>
+                        <iframe id={styles.advertisement} src="https://forecast.io/embed/#lat=37.5266&lon=127.0403&name=서울&color=&font=&units=si"></iframe>
+                    </div>
+                    
+             
                 </div>
                 <div id={styles.makeRoom}>
                     <div className="input-group">
@@ -118,7 +127,7 @@ function TaxiRoom(){
                         </div>
                     </div>
                     <ul className="list-group">
-                        {list.map((item,idx)=>{return item.id==0?null:<Link to={"/TaxiRoomDetail/"+item.roomName}><li onClick={()=>{enterRoom(item.roomId)}} key={item.roomId} className="list-group-item list-group-item-action" id={styles.list}>방 제목 : {item.roomName}<span className="badge badge-info badge-pill"> {item.userCount}</span></li></Link>})} 
+                        {list.map((item,idx)=>{return item.id==0?null:<li onClick={()=>{enterRoom(item)}} key={item.roomId} className="list-group-item list-group-item-action" id={styles.list}>방 제목 : {item.roomName}<span className="badge badge-info badge-pill"> {item.userCount}</span></li>})} 
                     </ul>
                 </div>
             </div>

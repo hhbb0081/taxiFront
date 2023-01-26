@@ -7,7 +7,6 @@ import Join from "../join/Join";
 import Find from "../login/Find";
 
 function App() {
-  const parmas= useParams()
   return(
     <Routes>
       <Route path='/' element={<TaxiRoom/>}></Route>
