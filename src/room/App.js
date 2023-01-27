@@ -6,6 +6,7 @@ import Login from "../login/Login";
 import Join from "../join/Join";
 import Find from "../find/selectFind";
 import FindId from "../find/FindId";
+import FindPw from "../find/FindPw";
 import Info from "../info/userInfo"
 
 import Taxi from './Taxi';
@@ -38,12 +39,12 @@ function App() {
   // }, [window.localStorage.getItem("username")])
 
   useEffect(() => {
-    if (window.localStorage.getItem("username") === null) {
+    if (window.localStorage.getItem("userId") === null) {
       console.log("로그인이 되지 않은 상태입니다.");
     }
     else {
       setLogged(true);
-      setId(window.localStorage.getItem("username"))
+      setId(window.localStorage.getItem("userId"))
       console.log("로그인 된 상태입니다.");
       getInfo();
     }
@@ -53,7 +54,7 @@ function App() {
   
   async function getInfo() {
     // e.preventDefault();
-    const response = await fetch(`http://localhost:8080/api/user/${id}`)
+    const response = await fetch(`http://localhost:8080/api/user/info`)
     if (response.status == 200) {
       const data = await response.json()
       console.log(data);
@@ -82,6 +83,7 @@ function App() {
       <Route path='/join' element={<Join />}></Route>
       <Route path='/find' element={<Find />}></Route>
       <Route path='/findId' element={<FindId />}></Route>
+      <Route path='/findPw' element={<FindPw />}></Route>
       <Route path='/info' element={<Info />}></Route>
     </Routes>
   )
