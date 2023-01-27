@@ -10,7 +10,7 @@ function TaxiRoom() {
     const [roomName,setRoomName]=useState("");
     const [list, setList] = useState([]);
     const [univ, setUniv] = useState(window.localStorage.getItem("university"));
-    const [nick, setNick] = useState(window.localStorage.getItem("nickname"));
+    const [nick, setNick] = useState(window.localStorage.getItem("nickName"));
     let [ItemList,setItemList]=useState([{
         id:0
     }]);
@@ -21,6 +21,7 @@ function TaxiRoom() {
         window.localStorage.clear();
         setUniv("");
         setNick("");
+        navigate('/login')
     }
 
     const clickInfo = (e) => {
