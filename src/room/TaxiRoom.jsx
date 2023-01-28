@@ -61,7 +61,6 @@ function TaxiRoom() {
         axios.get('http://localhost:8080/chat/rooms')
         .then((response) => { 
             setList(response.data); 
-            console.log(list)
         })
         .catch(
             (response)=>{
