@@ -9,7 +9,6 @@ import FindId from "../find/FindId";
 import FindPw from "../find/FindPw";
 import Info from "../info/userInfo"
 
-import Taxi from './Taxi';
 
 
 
