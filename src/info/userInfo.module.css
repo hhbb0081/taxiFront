@@ -1,16 +1,13 @@
-.legend {
-  display: block;
-  padding-left: 2px;
-  padding-right: 2px;
-  border: none;
+.main_wrapper{
+  display: flex;
+  flex-direction: column;
 }
 
-/* .legend {
-  background-color: #000;
-  color: #fff;
-  padding: 3px 6px;
-} */
+.colgroup{
+  display: table-column-group;
+}
 
-.fieldset{
-  background-color: #eeeeee;
+.tr{
+  display: table-row;
+  vertical-align: inherit;
 }

@@ -275,7 +275,7 @@ export default function Join() {
     params.append('email', Email);
     
     e.preventDefault();
-    axios.post('http://localhost:8080/api/join/email/mailConfirm', params, {
+    axios.post('http://localhost:8080/api/email/mailConfirm', params, {
       withCredentials: true,
     })
       .then((response) => {
@@ -290,20 +290,47 @@ export default function Join() {
     "Nickname": Nickname,
   })
 
-  function nickSearch() {
+  //닉네임 중복 확인
+  function nickSearch(e) {
+    e.preventDefault();
     axios
-      .post('/user', {
-        data: sendNick,
-        headers: {'Content-type': 'application/json'}
-      })
+      .get(`http://localhost:8080/api/user/join/user-id/${Nickname}/dup`)
       .then(response => {
-        alert(response.data);
+        if (response.data) {
+          alert("사용할 수 없는 닉네임입니다. 다시 입력해주세요.");
+          setNickname('');
+        }
+        else {
+          alert("사용할 수 있는 닉네임입니다.")
+        }
 
       })
-      .catch(function () {
-        alert("실패");
+      .catch(function (err) {
+        alert('error 발생')
+        console.log(err);
       })
-    console.log('아이디 중복 확인을 완료했습니다.');
+    // console.log('닉네임 중복 확인을 완료했습니다.');
+  }
+
+  //아이디 중복 확인
+  function IDSearch(e) {
+    e.preventDefault();
+    axios
+      .get(`http://localhost:8080/api/user/join/user-id/${ID}/dup`)
+      .then(response => {
+        if (response.data) {
+          alert("사용할 수 없는 아이디입니다. 다시 입력해주세요.");
+          setID('');
+        }
+        else {
+          alert("사용할 수 있는 아이디입니다.")
+        }
+      })
+      .catch(function (err) {
+        alert('error 발생')
+        console.log(err);
+      })
+    // console.log('아이디 중복 확인을 완료했습니다.');
   }
 
   
@@ -328,16 +355,22 @@ export default function Join() {
 
           
           <div className={styles.form_content}>
+            아이디 <br />
             <div className={styles.id}>
-              아이디 <br />
+              
               <input
                 type="text"
                 className={styles.input}
                 name="id"
                 placeholder="UserId"
-                defaultValue={ID || ""}
+                value={ID}
                 onChange={(e) => setID(e.target.value)}
-              /><br />
+              />
+              <a
+                className={styles.ID_search}
+                onClick={IDSearch}
+              >아이디 중복 확인</a>
+              <br />
             </div>
             <div
               className={styles.empty_err}
@@ -353,7 +386,7 @@ export default function Join() {
                 className={styles.input}
                 name="password"
                 placeholder="Password"
-                defaultValue={PW || ""}
+                value={PW}
                 onChange={(e) => setPW(e.target.value)}
               /><br />
             </div>
@@ -371,7 +404,7 @@ export default function Join() {
                 className={styles.input}
                 name="password"
                 placeholder="Password"
-                defaultValue={Chk_PW || ""}
+                value={Chk_PW}
                 onChange={(e) => setChk_PW(e.target.value)}
               /><br />
             </div>
@@ -389,7 +422,7 @@ export default function Join() {
                 className={styles.input}
                 name="name"
                 placeholder="Username"
-                defaultValue={Name || ""}
+                value={Name}
                 onChange={(e) => setName(e.target.value)}
               /><br />
             </div>
@@ -407,7 +440,7 @@ export default function Join() {
                   type="radio"
                   id='male'
                   name="sex"
-                  defaultValue="male"
+                  value="male"
                   onChange={(e) => setSex('male')}
                 />
                 <label className={styles.label} htmlFor="male">남자</label><br />
@@ -418,7 +451,7 @@ export default function Join() {
                   type="radio"
                   id='female'
                   name="sex"
-                  defaultValue="female"
+                  value="female"
                   onChange={(e) => setSex('female')}
                 />
                 <label className={styles.label} htmlFor="female">여자</label><br />
@@ -440,7 +473,7 @@ export default function Join() {
                 className={styles.input}
                 name="nickName"
                 placeholder="UserNickName"
-                defaultValue={Nickname || ""}
+                value={Nickname}
                 onChange={(e) => setNickname(e.target.value)}
               />
               <a
@@ -465,7 +498,7 @@ export default function Join() {
                 className={styles.input}
                 name="mobile"
                 placeholder="Phone-Number"
-                defaultValue={Mobile || ""}
+                value={Mobile}
                 onChange={(e) => setMobile(e.target.value)}
               /><br />
             </div>
@@ -482,7 +515,7 @@ export default function Join() {
                 type="date"
                 className={styles.input}
                 name="birthday"
-                defaultValue={Birth || ""}
+                value={Birth}
                 onChange={(e) => setBirth(e.target.value)}
               /><br />
             </div>
@@ -500,7 +533,7 @@ export default function Join() {
                 className={styles.input}
                 name="email"
                 placeholder="Email"
-                defaultValue={Email || ""}
+                value={Email}
                 onChange={(e) => setEmail(e.target.value)}
               />
               <select
@@ -549,7 +582,7 @@ export default function Join() {
                   id="univ_out"
                   name="university"
                   placeholder="Ex) 단국대학교"
-                  defaultValue={Univ || ""}
+                  value={Univ}
                   onChange={(e) => setUniv(e.target.value)}
                 /><br />
                 <a

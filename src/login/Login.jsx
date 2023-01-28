@@ -54,21 +54,21 @@ export default function Login() {
           // username: id,
           // password: password,
         }, { "Content-Type": 'application/json' });
-      console.log(getCookie('cookie'));
+      // console.log(getCookie('cookie'));
       if (checked) {
         handleCookie(id, password)
       }
-      console.log(response);
-      console.log(checked);
+      console.log(response.data);
+      // console.log(checked);
       
         //로그인 성공 시
         if (response.data == 1) {
           alert("로그인 성공!");
-          window.localStorage.setItem("username", id);
+          window.localStorage.setItem("userId", id);
           window.localStorage.setItem("password", password);
           setLogged(true);
+          console.log(logged);
           getInfo();
-          
         }    
       
       
@@ -79,19 +79,44 @@ export default function Login() {
   }
 
   //사용자 정보 가져오기
+  // async function getInfo() {
+  //   // e.preventDefault();
+  //   const response = await fetch('http://localhost:8080/api/user/info')
+  //   if (response.status == 200) {
+  //     const data = await response.json()
+  //     console.log(data);
+  //     window.localStorage.setItem("nickname", data["nickName"]);
+  //     window.localStorage.setItem("university", data["university"]);
+  //     navigate('/');
+  //   }
+  //   else {
+  //     throw new Error('err 발생')
+  //   }
+  // }
+
   async function getInfo() {
-    // e.preventDefault();
-    const response = await fetch(`http://localhost:8080/api/user/${id}`)
-    if (response.status == 200) {
-      const data = await response.json()
-      console.log(data);
-      window.localStorage.setItem("nickname", data["nickName"]);
-      window.localStorage.setItem("university", data["university"]);
-      navigate('/');
-    }
-    else {
-      throw new Error('err 발생')
-    }
+    await axios.get('http://localhost:8080/api/user/info')
+      .then((res) => {
+        console.log(res.data);
+        window.localStorage.setItem("name", res.data["name"]);
+        window.localStorage.setItem("sex", res.data["sex"]);
+        window.localStorage.setItem("nickName", res.data["nickName"]);
+        window.localStorage.setItem("mobile", res.data["mobile"]);
+        window.localStorage.setItem("birthday", res.data["birthday"]);
+        window.localStorage.setItem("email", res.data["email"]);
+        window.localStorage.setItem("university", res.data["university"]);
+        navigate('/');
+      })
+      .catch((err) => {
+        console.log('err 발생: ' + err);
+    })
+    // if (response.status == 200) {
+    //   const data = await response.json()
+    //   console.log(data);
+    //   window.localStorage.setItem("nickname", data["nickName"]);
+    //   window.localStorage.setItem("university", data["university"]);
+    //   navigate('/');
+    // }
   }
 
   const handleCookie = (userId, password) => {
@@ -170,12 +195,12 @@ export default function Login() {
               </span>
             </div>
           </form>
-          <div className={styles.other_login}>
+          {/* <div className={styles.other_login}>
             <a href="#"><div className={styles.google}>구글 로그인</div></a>
             <div className={styles.facebook} ><a href="#">페이스북 로그인</a> </div>
             <div className={styles.naver} ><a href="#">네이버 로그인</a> </div>
             <div className={styles.kakao} ><a href="#">카카오 로그인</a> </div>
-          </div>
+          </div> */}
           </div>
       </div>
     </div>

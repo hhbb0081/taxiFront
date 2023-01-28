@@ -13,7 +13,7 @@ export default function SelectFind() {
       <Header />
       <div className={styles.wrapper}>
         <a href='FindId' className={styles.findId}>아이디 찾기</a>
-        <a href='./showId' className={styles.findPw}>비밀번호 찾기</a>
+        <a href='FindPw' className={styles.findPw}>비밀번호 찾기</a>
       </div>
     </div>
   )
