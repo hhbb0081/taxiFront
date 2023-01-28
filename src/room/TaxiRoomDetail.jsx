@@ -105,7 +105,7 @@ function TaxiRoomDetail(props){
                 </div>
             </div>
             <ul className="list-group">
-                {messageList.map((item,idx)=>{return item.id!=null?<li className="list-group-item" key={item.key}>{item.sender}-{item.inMessage}</li>:null})}
+                {messageList.map((item,idx)=>{return item.id!=null?(item.message===null?<li className="list-group-item" key={item.key}>{item.sender}</li>:<li className="list-group-item" key={item.key}>{item.sender}-{item.inMessage}</li>):null})}
             </ul>
             <button id={styles.out} className="btn btn-info btn-sm" onClick={() => navigate(-1) } >채팅방 나가기</button>
         </div>
