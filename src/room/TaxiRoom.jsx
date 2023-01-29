@@ -61,15 +61,16 @@ function TaxiRoom() {
         axios.get('http://localhost:8080/chat/rooms')
         .then((response) => { 
             setList(response.data); 
+            console.log(response.data)
         })
         .catch(
             (response)=>{
                 console.log("실패")
             }
         )
-        
-
     }
+
+
     const createRoom=(e)=>{
         if(roomName===""){
             alert("방 제목을 입력해주세요")
@@ -93,19 +94,28 @@ function TaxiRoom() {
     }
 
     
-
+    async function getInfo() {
+        await axios.get('http://localhost:8080/api/user/info')
+          .then((res) => {
+            console.log(res.data);
+            localStorage.setItem('sender',res.data["nickName"]);
+          })
+          .catch((err) => {
+            console.log('err 발생: ' + err);
+        })
+        // if (response.status == 200) {
+        //   const data = await response.json()
+        //   console.log(data);
+        //   window.localStorage.setItem("nickname", data["nickName"]);
+        //   window.localStorage.setItem("university", data["university"]);
+        //   navigate('/');
+        // }
+      }
 
     const enterRoom=(e)=>{
-        console.log(e)
-        var sender = prompt('대화명을 입력해 주세요.');
-        if(sender !== "") {
-            localStorage.setItem('sender',sender);
-            localStorage.setItem('roomId',e.roomId);
-            document.location.href="/TaxiRoomDetail/"+e.roomName
-        }
-        else{
-            
-        }
+        getInfo()
+        localStorage.setItem('roomId',e.roomId);
+        document.location.href="/TaxiRoomDetail/"+e.roomName
     }
    
     return(
