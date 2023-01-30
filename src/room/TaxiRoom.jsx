@@ -117,6 +117,7 @@ function TaxiRoom() {
         localStorage.setItem('roomId',e.roomId);
         document.location.href="/TaxiRoomDetail/"+e.roomName
     }
+
    
     return(
         <>
