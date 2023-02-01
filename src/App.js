@@ -1,25 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter,Routes,Route,Link,useParams } from 'react-router-dom';
+import TaxiRoom from './room/TaxiRoom';
+import TaxiRoomDetail from './room/TaxiRoomDetail'
+import Login from "./login/Login";
+import Join from "./join/Join";
+import Find from "./login/Find";
 
 function App() {
+  const parmas = useParams()
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Routes>
+      <Route path='/' element={<TaxiRoom/>}></Route>
+      <Route path='/TaxiRoomDetail/:name' element={<TaxiRoomDetail />}></Route>
+      <Route path="/login" element={<Login/>}></Route> 
+      <Route path='/join' element={<Join />}></Route> 
+      <Route path='/find' element={<Find/>}></Route> 
+    </Routes>
+  )
 }
 
 export default App;
