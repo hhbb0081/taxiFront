@@ -122,9 +122,7 @@ function TaxiRoomDetail(props){
                 </ul>
                 <button id={styles.out} className="btn btn-info btn-sm" onClick={() => navigate(-1) } >채팅방 나가기</button>
             </div>
-            <div>
-                {user.map((item,idx)=>(<li key={item.id}>{item.sender}</li>))}
-            </div>
+           
         </>
         
     )

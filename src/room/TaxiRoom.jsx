@@ -93,28 +93,10 @@ function TaxiRoom() {
         }
     }
 
-    
-    async function getInfo() {
-        await axios.get('http://localhost:8080/api/user/info')
-          .then((res) => {
-            console.log(res.data);
-            localStorage.setItem('sender',res.data["nickName"]);
-          })
-          .catch((err) => {
-            console.log('err 발생: ' + err);
-        })
-        // if (response.status == 200) {
-        //   const data = await response.json()
-        //   console.log(data);
-        //   window.localStorage.setItem("nickname", data["nickName"]);
-        //   window.localStorage.setItem("university", data["university"]);
-        //   navigate('/');
-        // }
-      }
 
     const enterRoom=(e)=>{
-        getInfo()
         localStorage.setItem('roomId',e.roomId);
+        localStorage.setItem('sender',nick);
         document.location.href="/TaxiRoomDetail/"+e.roomName
     }
 
