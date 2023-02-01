@@ -15,6 +15,10 @@ function TaxiRoomDetail(props){
     let [messageList,setMessageList]=useState([{
         
     }]);
+    const[user,setUser]=useState([{
+
+    }]);
+
     const no = useRef(1)
     const focusRef = useRef();
 
@@ -58,6 +62,19 @@ function TaxiRoomDetail(props){
                
         )
     }
+
+    const userList=()=>{
+        setUser((prev)=>{
+            return[
+                {
+                    id:no.current++,
+                    sender:sender
+                },
+                ...prev
+            ]
+        })
+    }
+   
     
  
     let navigate = useNavigate();
@@ -67,6 +84,7 @@ function TaxiRoomDetail(props){
 
    
     useEffect(()=>{
+        userList()
         created()
         get()
         focusRef.current.focus();
@@ -105,7 +123,7 @@ function TaxiRoomDetail(props){
                 <button id={styles.out} className="btn btn-info btn-sm" onClick={() => navigate(-1) } >채팅방 나가기</button>
             </div>
             <div>
-
+                {user.map((item,idx)=>(<li key={item.id}>{item.sender}</li>))}
             </div>
         </>
         
